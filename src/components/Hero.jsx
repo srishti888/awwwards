@@ -1,10 +1,12 @@
 import React from 'react'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {useRef } from 'react'
 import Button from './Button'
 import { TiLocationArrow } from 'react-icons/ti'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import {ScrollTrigger} from 'gsap/all'
+gsap.registerPlugin(ScrollTrigger);
 
 
 const Hero = () => {
@@ -30,33 +32,70 @@ const nextVideoRef = useRef(null);
     setCurrentIndex(upcomingVideoIndex);
   }
 
-  // useGSAP(() => {
-  //   if(hasClicked){
-  //     gsap.set('#next-video', {visibility : 'visible'});
+  useEffect(() => {
+    if(loadedVideos === totalVideos - 1){
+      setIsLoading(false);
+    }
+  }, [loadedVideos])
 
-  //     gsap.to('#next-video', {
-  //       transformOrigin: 'center center',
-  //       scale: 1,
-  //       width: '100%',
-  //       height: '100%',
-  //       duration: 1,
-  //       ease: 'power1.inOut',
-  //       onStart: () => nextVideoRef.current.play()
-  //     })
+  useGSAP(() => {
+    if(hasClicked){
+      gsap.set('#next-video', {visibility : 'visible'});
 
-  //     gsap.from('#current-video', {
-  //       transformOrigin: 'center center',
-  //       scale: 0,
-  //       duration: 1.5,
-  //       ease: 'power1.inOut',
-  //     })
-  //   }
-  // }, { dependencies: [currentIndex], revertOnUpdate: true })
+      gsap.to('#next-video', {
+        transformOrigin: 'center center',
+        scale: 1,
+        width: '100%',
+        height: '100%',
+        duration: 1,
+        ease: 'power1.inOut',
+        onStart: () => nextVideoRef.current.play()
+      })
+
+      gsap.from('#current-video', {
+        transformOrigin: 'center center',
+        scale: 0,
+        duration: 1.5,
+        ease: 'power1.inOut',
+      })
+    }
+  }, { dependencies: [currentIndex], revertOnUpdate: true })
+
+  useGSAP(() => {
+    gsap.set('#video-frame', {
+      clipPath: 'polygon(14% 0%, 76% 0%, 90% 90%, 0% 100%)',
+      borderRadius: '0 0 40% 10%'
+    })
+//from where we wanna start animations
+    gsap.from( '#video-frame', {
+      clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+      borderRadius: '0 0 0% 0',
+      ease: 'power1.inOut',
+      scrollTrigger: {
+        trigger: '#video-frame',
+        start: 'center center',
+        end: 'bottom center',
+        scrub: true,
+      }
+    } )
+  })
+
+
 
   const getVideoSrc = (index) => `videos/hero-${index}.mp4`;
 
   return (
-    <div className="relative h-dvh w-screen overflow-x-hidden border-black border-2 ">
+    <div className="relative h-dvh w-screen overflow-x-hidden  ">
+      {isLoading && (
+        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50 ">
+          <div className="three-body">
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+
+          </div>
+        </div>
+      ) }
       <div id="video-frame" className="relative z-10 h-dvh w-screen rounded-lg overflow-hidden bg-blue-75">
         <div>
           <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer rounded-lg">
@@ -95,7 +134,7 @@ const nextVideoRef = useRef(null);
         {/* gaming texts */}
         <h1 className="hero-heading special-font absolute bottom-5 z-40 text-blue-100 text-sm ">GAMing</h1>
         {/* redefine texts */}
-        <div className="absolute z-40 border-red border-4">
+        <div className="absolute z-40">
           <div className="mt-24 px-5 sm:px-10">
             <h1 className="special-font hero-heading text-blue-100">REDEFINE</h1>
             <p className="text-blue-100 font-robert-regular mb-3">Enter the metagame layer <br/> Unleash the Play Economy</p>
