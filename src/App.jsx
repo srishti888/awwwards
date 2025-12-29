@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import Hero from './components/Hero'
 import About from './components/About'
+import Navbar from './components/Navbar'
+import Features from './components/Features'
 
 const App = () => {
   // const [currentIndex, setCurrentIndex] = useState(1);
@@ -38,6 +40,8 @@ const App = () => {
     <main className='relative w-screen min-h-screen overflow-x-hidden'>
       <Hero/>
       <About/>
+      <Navbar/>
+      <Features/>
     </main>
   )
 }
