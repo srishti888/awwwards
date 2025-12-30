@@ -64,7 +64,7 @@ const Story = () => {
                                 ref={frameRef}
                                 onMouseLeave={handleMouseLeave}
                                 onMouseUp={handleMouseLeave}
-                                onMOuseEnter={handleMouseLeave}
+                                onMouseEnter={handleMouseLeave}
                                 onMouseMove={handleMouseMove}                               
                                 />
                             </div>

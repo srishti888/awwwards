@@ -71,7 +71,7 @@ const Navbar = () => {
             <header className="absolute -translate-y-1/2 w-full top-1/2 ">
             <nav className="flex size-full items-center justify-between p-4 ">
                 {/* //left side of navbar ie logo & product button*/}
-                <div className="flex items-center gap-7 border-4 border-white ">
+                <div className="flex items-center gap-7 ">
                     <img 
                     src="./img/logo.png"
                     alt="logo"
@@ -86,7 +86,7 @@ const Navbar = () => {
                 </div>
 
                 {/* right side of navbar */}
-                <div className="flex items-center h-full border-4 border-white ">
+                <div className="flex items-center h-full">
                     <div className="hidden md:block">
                         {navItems.map((item) => (
                             <a key={item} href={`#${item.toLowerCase()}`}className="nav-hover-btn ">
